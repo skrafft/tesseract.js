@@ -26,11 +26,20 @@ function progressUpdate(packet){
 
 
 		if(packet.status == 'done'){
-			var pre = document.createElement('pre')
-			pre.appendChild(document.createTextNode(packet.data.text))
-			line.innerHTML = ''
-			line.appendChild(pre)
+			var lang = document.querySelector('#langsel').value;
 
+			line.innerHTML = '';
+
+			if (lang != "mrz" && lang != "ocrb") {
+				var pre = document.createElement('pre')
+				pre.appendChild(document.createTextNode(packet.data.text))
+				line.appendChild(pre)
+			} else {
+				var mrz = packet.data.text.split('\n').filter(function (item) { return item.length > 29 && item.indexOf('<')!==-1; }).join('\n');
+				var pre = document.createElement('pre')
+				pre.appendChild(document.createTextNode(mrz));
+				line.appendChild(pre)
+			}
 		}
 
 		log.insertBefore(line, log.firstChild)
@@ -55,6 +64,8 @@ function recognizeFile(file){
 }
 </script>
 <select id="langsel" onchange="window.lastFile && recognizeFile(window.lastFile)">
+<option value='mrz'     > MRZ             			</option>
+<option value='ocrb'    > OCRB            			</option>
 <option value='afr'     > Afrikaans             </option>
 <option value='ara'     > Arabic                </option>
 <option value='aze'     > Azerbaijani           </option>

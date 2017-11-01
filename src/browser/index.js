@@ -1,7 +1,7 @@
 var defaultOptions = {
     // workerPath: 'https://cdn.rawgit.com/naptha/tesseract.js/0.2.0/dist/worker.js',
-    corePath: 'https://cdn.rawgit.com/naptha/tesseract.js-core/0.1.0/index.js',    
-    langPath: 'https://cdn.rawgit.com/naptha/tessdata/gh-pages/3.02/',
+    corePath: 'https://cdn.rawgit.com/naptha/tesseract.js-core/0.1.0/index.js',
+    langPath: 'https://cdn.rawgit.com/skrafft/tessdata/gh-pages/3.02/',
 }
 
 if (process.env.NODE_ENV === "development") {
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "development") {
     defaultOptions.workerPath = location.protocol + '//' + location.host + '/dist/worker.dev.js?nocache=' + Math.random().toString(36).slice(3)
 }else{
     var version = require('../../package.json').version;
-    defaultOptions.workerPath = 'https://cdn.rawgit.com/naptha/tesseract.js/' + version + '/dist/worker.js'
+    defaultOptions.workerPath = 'https://cdn.rawgit.com/skrafft/tesseract.js/' + version + '/dist/worker.js'
 }
 
 exports.defaultOptions = defaultOptions;
@@ -37,7 +37,7 @@ exports.terminateWorker = function(instance){
 exports.sendPacket = function sendPacket(instance, packet){
     loadImage(packet.payload.image, function(img){
         packet.payload.image = img
-        instance.worker.postMessage(packet) 
+        instance.worker.postMessage(packet)
     })
 }
 
